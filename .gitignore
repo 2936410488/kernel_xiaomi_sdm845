@@ -124,4 +124,9 @@ kernel/configs/android-*.cfg
 #
 Android.bp
 
+#
+#Sukisu
+#
+patch_linux
+
 /out
