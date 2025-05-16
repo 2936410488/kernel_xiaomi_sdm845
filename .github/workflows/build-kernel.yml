@@ -22,6 +22,7 @@ jobs:
         run: | 
           curl -LSs "https://raw.githubusercontent.com/ShirkNeko/SukiSU-Ultra/nongki/kernel/setup.sh" | bash -s nongki
           bash patch_kpm.sh --download
+          sudo apt install -y gcc-arm-linux-gnueabi
           
       - name: Run KSU build script
         run: |
