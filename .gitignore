@@ -120,13 +120,13 @@ all.config
 kernel/configs/android-*.cfg
 
 #
-#Ignoring Android.bp link file
-#
-Android.bp
-
-#
 #Sukisu
 #
 patch_linux
+
+#
+#Ignoring Android.bp link file
+#
+Android.bp
 
 /out
