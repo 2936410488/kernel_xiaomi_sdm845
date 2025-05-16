@@ -88,7 +88,7 @@ for arg in "$@"; do
 			;;
 		-s|--su)
 			ENABLE_KSU=true
-			ZIPNAME="${ZIPNAME/FSociety-surya/FSociety-KSU}"
+			ZIPNAME="${ZIPNAME/FSociety-polaris/FSociety-KSU}"
 			;;
 		*)
 			echo "Unknown argument: $arg"
@@ -104,16 +104,15 @@ fi
 
 echo -e "\nStarting compilation...\n"
 	make $DEFCONFIG O=out
-make -j$(nproc --all) O=out LLVM=1 Image.gz-dtb dtb.img dtbo.img 2> >(tee log.txt >&2) || exit $?
+make -j$(nproc --all) O=out LLVM=1 Image.gz-dtb    dtbo.img 2> >(tee log.txt >&2) || exit $?
 
 kernel="out/arch/arm64/boot/Image.gz-dtb"
-dtb="out/arch/arm64/boot/dtb.img"
 dtbo="out/arch/arm64/boot/dtbo.img"
 
 if [ -f "$kernel" ] && [ -f "$dtb" ] && [ -f "$dtbo" ]; then
 	echo -e "\nKernel compiled successfully! Zipping up...\n"
 	cp -r $AK3_DIR AnyKernel3
-	cp $kernel $dtb $dtbo AnyKernel3
+	cp $kernel $dtbo AnyKernel3
 	cd AnyKernel3
 	git checkout Gilverly &> /dev/null
 	zip -r9 "../$ZIPNAME" * -x .git modules\* patch\* ramdisk\* README.md *placeholder
