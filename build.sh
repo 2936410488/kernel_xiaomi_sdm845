@@ -104,7 +104,7 @@ fi
 
 echo -e "\nStarting compilation...\n"
 	make $DEFCONFIG O=out
-make -j$(nproc --all) O=out LLVM=1 Image.gz-dtb    dtbo.img 2> >(tee log.txt >&2) || exit $?
+make -j$(nproc --all) O=out LLVM=1 Image.gz-dtb     2> >(tee log.txt >&2) || exit $?
 
 kernel="out/arch/arm64/boot/Image.gz-dtb"
 dtbo="out/arch/arm64/boot/dtbo.img"
