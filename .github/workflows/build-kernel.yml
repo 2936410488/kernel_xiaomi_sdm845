@@ -1,0 +1,38 @@
+name: Build Kernel
+
+on:
+  push:
+    branches:
+      - vic-susfs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+        
+      - name: Setup timezone
+        uses: szenius/set-timezone@master
+        with:
+          timezoneLinux: "Asia/Shanghai"
+
+      - name: Setup sukisu
+        run: | 
+          curl -LSs "https://raw.githubusercontent.com/ShirkNeko/SukiSU-Ultra/nongki/kernel/setup.sh" | bash -s nongki
+          bash patch_kpm.sh --download
+          
+      - name: Run KSU build script
+        run: |
+          export KBUILD_BUILD_USER=Charon
+          export KBUILD_BUILD_HOST=Charon Project
+          source build.sh --su
+          echo "ZIPNAME_KSU=${ZIPNAME}" >> $GITHUB_ENV
+
+      - name: Upload KSU artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: KSU-artifact
+          path: ${{ env.ZIPNAME_KSU }}
+          
