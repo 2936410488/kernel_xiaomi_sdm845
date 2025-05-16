@@ -9,7 +9,7 @@ ZIPNAME="Gilverly-polaris-$(date '+%Y%m%d-%H%M').zip"
 TC_DIR="$(pwd)/tc/clang-20"
 AK3_DIR="$(pwd)/android/AnyKernel3"
 DEFCONFIG="polaris_defconfig"
-
+CROSS_COMPILE_ARM32="arm-linux-gnueabi-"
 if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
    head=$(git rev-parse --verify HEAD 2>/dev/null); then
 	ZIPNAME="${ZIPNAME::-4}-$(echo $head | cut -c1-8).zip"
@@ -104,7 +104,7 @@ fi
 
 echo -e "\nStarting compilation...\n"
 	make $DEFCONFIG O=out
-make -j$(nproc --all) O=out LLVM=1 Image.gz-dtb dtb.img dtbo.img 2> >(tee log.txt >&2) || exit $?
+make -j$(nproc --all) O=out $CROSS_COMPILE_ARM32 LLVM=1 Image.gz-dtb dtb.img dtbo.img 2> >(tee log.txt >&2) || exit $?
 
 kernel="out/arch/arm64/boot/Image.gz-dtb"
 dtb="out/arch/arm64/boot/dtb.img"
