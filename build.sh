@@ -103,12 +103,8 @@ if $CLEAN_BUILD; then
 fi
 
 echo -e "\nStarting compilation...\n"
-if $ENABLE_KSU; then
-	make $KSU_DEFCONFIG
-else
 	make $DEFCONFIG O=out
-fi
-make -j$(nproc --all) LLVM=1 O=out Image.gz-dtb dtb.img dtbo.img 2> >(tee log.txt >&2) || exit $?
+make -j$(nproc --all) O=out LLVM=1 Image.gz-dtb dtb.img dtbo.img 2> >(tee log.txt >&2) || exit $?
 
 kernel="out/arch/arm64/boot/Image.gz-dtb"
 dtb="out/arch/arm64/boot/dtb.img"
